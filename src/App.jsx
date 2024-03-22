@@ -5,6 +5,7 @@ import { PageTemplate } from "./components/PageTemplate";
 import { Search } from "./components/Search";
 import { PlayerTemplate } from "./components/PlayerTemplate";
 import { TitleAndTimeBox } from "./components/TitleAndTimeBox";
+import { Cover } from "./components/Cover";
 import { Title } from "./components/Title";
 import { Time } from "./components/Time";
 import { Progress } from "./components/Progress";
@@ -34,14 +35,19 @@ const fmtMSS = (s) => new Date(1000 * s).toISOString().substr(15, 4);
 const urlParams = new URLSearchParams(document.location.search);
 const player = urlParams.get('player');
 
-async function getTracklist(){
-  const res = await fetch(`https://bancomusical.com.br/music/${player}/tracklist.json`);
-  //const res = await fetch('../public/tracklist.json');
-  const data = await res.json()  
-  console.log(data)
-  return data
+async function getCover(){
+  const res = await fetch(`https://bancomusical.com.br/music/${player}/tracklist.json`);  
+  const data = await res.json()      
+  console.log(data[0].cover[0].url)
+  return data[0].cover[0].url
 }
+const cover = await getCover();
 
+async function getTracklist(){
+  const res = await fetch(`https://bancomusical.com.br/music/${player}/tracklist.json`);  
+  const data = await res.json()    
+  return data[1].music
+}
 const tracks = await getTracklist();
 
 const Player = ({
@@ -269,56 +275,63 @@ const Player = ({
   };
 
   return (
+    <div className="wrapper">
     <PageTemplate>
       {includeSearch && (
         <Search
           value={query}
           onChange={(e) => updateQuery(e.target.value.toLowerCase())}
-          placeholder={`Search ${trackList.length} tracks...`}
+          placeholder={`Pesquise entre as ${trackList.length} músicas dessa playlist ...`}
         />
       )}
-      <PlayerTemplate>
-        <TitleAndTimeBox>
-          <Title title={title} />
-          <Time
-            time={`${!time ? "0:00" : fmtMSS(time)}/${
-              !length ? "0:00" : fmtMSS(length)
-            }`}
-          />
-        </TitleAndTimeBox>
-        <Progress
-          value={slider}
-          progress={buffer}
-          onChange={(e) => {
-            setSlider(e.target.value);
-            setDrag(e.target.value);
-          }}
-          onMouseUp={play}
-          onTouchEnd={play}
-        />
-        <ButtonsAndVolumeBox>
-          <ButtonsBox>
-            <Loop src={looped ? loopCurrentBtn : loopNoneBtn} onClick={loop} />
-            <Previous src={previousBtn} onClick={previous} />
-            {isPlaying ? (
-              <Pause src={pauseBtn} onClick={pause} />
-            ) : (
-              <Play src={playBtn} onClick={play} />
-            )}
-            <Next src={nextBtn} onClick={next} />
-            <Shuffle
-              src={shuffled ? shuffleAllBtn : shuffleNoneBtn}
-              onClick={shuffle}
+      
+        <div className="playerTemplate">
+        <Cover src={cover} />
+        <div className="playerControls">
+            <TitleAndTimeBox>
+              <Title title={title} />
+              <Time
+                time={`${!time ? "0:00" : fmtMSS(time)}/${
+                  !length ? "0:00" : fmtMSS(length)
+                }`}
+              />
+            </TitleAndTimeBox>
+            <Progress
+              value={slider}
+              progress={buffer}
+              onChange={(e) => {
+                setSlider(e.target.value);
+                setDrag(e.target.value);
+              }}
+              onMouseUp={play}
+              onTouchEnd={play}
             />
-          </ButtonsBox>
-          <Volume
-            value={volume}
-            onChange={(e) => {
-              setVolume(e.target.value / 100);
-            }}
-          />
-        </ButtonsAndVolumeBox>
-      </PlayerTemplate>
+            <ButtonsAndVolumeBox>
+              <ButtonsBox>
+                
+                <Previous src={previousBtn} onClick={previous} />
+                {isPlaying ? (
+                  <Pause src={pauseBtn} onClick={pause} />
+                ) : (
+                  <Play src={playBtn} onClick={play} />
+                )}
+                <Next src={nextBtn} onClick={next} />
+                <Shuffle
+                  src={shuffled ? shuffleAllBtn : shuffleNoneBtn}
+                  onClick={shuffle}
+                />
+              </ButtonsBox>
+              <Volume
+                value={volume}
+                onChange={(e) => {
+                  setVolume(e.target.value / 100);
+                }}
+              />
+            </ButtonsAndVolumeBox>
+        </div>        
+        </div>
+        
+      
       <PlaylistTemplate visibility={showPlaylist}>
         {trackList.sort(sortCompare).map((el, index) => {
           if (filter.length === 0) {
@@ -339,6 +352,7 @@ const Player = ({
         })}
       </PlaylistTemplate>
     </PageTemplate>
+    </div>
   );
 };
 

@@ -1,0 +1,6 @@
+.cover {
+  max-width: 250px;
+  transition: transform 0.2s;  
+  border-radius: 7px;
+  align-self: flex-start;
+}

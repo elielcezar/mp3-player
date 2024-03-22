@@ -1,7 +1,13 @@
 .title {
   color: var(--titleColor);
-  font-size: 28px;
+  font-size: 36px;
+  line-height: 42px;
+  font-weight: 900;
   text-align: left;
+  min-height: 70px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
 }
 
 @media only screen and (max-width: 600px) {

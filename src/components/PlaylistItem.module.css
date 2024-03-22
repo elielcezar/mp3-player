@@ -3,19 +3,20 @@
   color: var(--playlistText);
   text-align: center;
   margin: 5px 0;
-  padding: 3px 0;
+  padding: 10px 0;
   cursor: pointer;
   border-radius: 5px;
-  font-size: 16px;
-  font-family: 'Poppins', sans-serif;
+  font-size: 16px;    
 }
 
 .active {
-  color: var(--playlistTextHoverActive);
-  font-family: 'Quicksand', sans-serif;
+  color: var(--playlistTextHoverActive);  
   font-size: 18px;
+  box-shadow: 0px 0px 10px #2b36a3;
+  border: 2px solid #32376c;
 }
 
 .item:hover {
   color: var(--playlistTextHoverActive);
+  box-shadow: 0px 0px 10px #2b36a3;
 }

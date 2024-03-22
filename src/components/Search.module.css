@@ -1,14 +1,21 @@
 .search {
   font-family: 'Quicksand', sans-serif;
-  height: 40px;
+  height: 50px;
   border: none;
   font-size: 18px;
   width: 100%;
   margin: 0 auto 10px auto;
-  background-color: var(--searchBackground);
-  color: var(--searchText);
-  padding-left: 20px;
+  background: var(--searchBackground) url(../icons/search.png) 98% center no-repeat;
+  background-size: 20px;
+  color: #fff;  
   border-radius: 10px;
+  text-align: center;  
+  box-shadow: 0px 0px 10px #2b36a3;
+  border: 2px solid #32376c;
+}
+
+.search:focus{
+  outline: none;
 }
 
 .search::placeholder {

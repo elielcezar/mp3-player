@@ -1,10 +1,9 @@
 .wrapper {
-  margin: 20px auto;
-  max-height: 395px;
+  margin: 10px auto 20px auto;  
   min-height: 120px;
-  overflow-x: hidden;
-  padding-right: 10px;
-  font-family: "Quicksand", sans-serif;
+  overflow-x: hidden;  
+  overflow: visible;
+  font-family: "Nunito Sans", Helvetica, sans-serif;
 }
 
 .wrapper::-webkit-scrollbar {
